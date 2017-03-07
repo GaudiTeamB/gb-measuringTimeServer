@@ -23,7 +23,7 @@ var server = http.createServer(function (request, response) {
       console.log("Process start");
 
       var dateTimeStart = new Date();
-
+      
       var options = {
                     host: destinationHost,
                     port: 80,
