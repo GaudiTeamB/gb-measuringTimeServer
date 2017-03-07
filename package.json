@@ -1,0 +1,29 @@
+{
+  "name": "gb-measuring-time-server",
+  "version": "0.0.1",
+  "description": "This server will store the time span to call a url",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaudiTeamB/gb-measuringTimeServer.git"
+  },
+  "keywords": [
+    "time", "measuring", "post", "url"
+  ],
+  "author": "Gaudi Team B",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/GaudiTeamB/gb-measuringTimeServer/issues"
+  },
+  "homepage": "https://github.com/GaudiTeamB/gb-measuringTimeServer#readme",
+  "engines": {
+    "node": "7.0.0"
+  },
+  "private": true,
+  "dependencies" :
+  { "express" : "4.15.2"
+  }
+}
