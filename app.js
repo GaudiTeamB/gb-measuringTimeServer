@@ -23,7 +23,7 @@ var server = http.createServer(function (request, response) {
       console.log("Process start");
 
       var dateTimeStart = new Date();
-      var session = new AAGUID
+      
       var options = {
                     host: destinationHost,
                     port: 80,
