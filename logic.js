@@ -1,3 +1,5 @@
+var urlValidations = require('./urlValidations.js');
+
 module.exports = {
 sendResponse: function(response, result, message){
     if(result === 200){
@@ -24,11 +26,13 @@ retrieveUrl: function(request){
     return destinationHost;
 },
 
-isValidUrl: function (url) {
-    var expression = url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-    var regex = new RegExp(expression);
+isValidUrl: function (destinationUrl) {
+    var url = require('url');
+    var urlParsed = url.parse(destinationUrl, true);
 
-    return url.match(regex);
+    var isValid = urlValidations.isValidHost(urlParsed.host) &&
+                  urlValidations.isValidProtocol(urlParsed.protocol);
+     return isValid;
 },
 
 httpCall: function(destinationHost) {
