@@ -1,6 +1,16 @@
 var urlValidations = require('./urlValidations.js');
 
 module.exports = {
+sendResponse: function(response, result, message){
+    if(result === 200){
+        response.writeHead(200, {"Content-Type": "application/json"});
+        response.end(JSON.stringify({ message : message }));
+    } else {
+        response.writeHead(500, {"Content-Type": "application/json"});
+        response.end(JSON.stringify({ message : message }));
+    }
+},
+
 addTrace: function (start, status) {
     var end = new Date();
     // TODO: Store in mongo EndTime
@@ -39,9 +49,9 @@ httpCall: function(destinationHost) {
                 resolve(res.statusCode);
             });
         }).on('error', function(e) {
-            reject(e.statusCode);
+            reject(e.message);
         });
     });
-},
+}
 
 }
