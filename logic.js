@@ -48,7 +48,7 @@ httpCall: function(destinationHost) {
                 };
 
         http.get(options, function(res) {
-            res.on("data", function(chunk) {
+            res.on("data", function() {
                 resolve(res.statusCode);
             });
         }).on('error', function(e) {
