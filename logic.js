@@ -30,8 +30,11 @@ isValidUrl: function (destinationUrl) {
     var url = require('url');
     var urlParsed = url.parse(destinationUrl, true);
 
-    var isValid = urlValidations.isValidHost(urlParsed.host) &&
-                  urlValidations.isValidProtocol(urlParsed.protocol);
+    // TODO: isValidHost is not the proper check for this field. Custom check needed.
+    var isValid = (urlParsed.href && urlValidations.isValidHost(urlParsed.href)) || 
+                  (urlValidations.isValidHost(urlParsed.host) &&
+                  urlValidations.isValidProtocol(urlParsed.protocol));
+
      return isValid;
 },
 
