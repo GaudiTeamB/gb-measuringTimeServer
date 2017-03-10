@@ -4,9 +4,8 @@
   "description": "This server will store the time span to call a url",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
     "test": "mocha"
-
   },
   "repository": {
     "type": "git",
