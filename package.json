@@ -2,9 +2,9 @@
   "name": "gb-measuring-time-server",
   "version": "0.0.1",
   "description": "This server will store the time span to call a url",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
