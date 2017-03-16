@@ -29,6 +29,7 @@
   "private": true,
   "dependencies": {
     "express": "4.15.2",
+    "mongo": "0.1.0",
     "swagger": "*"
   },
   "devDependencies": {

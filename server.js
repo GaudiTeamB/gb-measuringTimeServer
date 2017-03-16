@@ -14,9 +14,7 @@ app.get('/', function (request, response) {
     }
     else {
         var start = new Date();
-        // TODO: Store in mongo StartTime
-        console.log("Start Time: " + start);
-        logic.httpCall(destinationHost).then(function(status) { logic.sendResponse(response, status, "Ok"); logic.addTrace(start, status); }).catch(function(message) { logic.sendResponse(response, 500, message); logic.addTrace(start, message); });   
+        logic.httpCall(destinationHost).then(function(status) { logic.sendResponse(response, status, "Ok"); logic.addTrace(start, status, destinationHost); }).catch(function(message) { logic.sendResponse(response, 500, message); logic.addTrace(start, message); });   
     }
 });
 

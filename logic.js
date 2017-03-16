@@ -1,4 +1,5 @@
 var urlValidations = require('./urlValidations.js');
+var mongoClient = require("mongodb").MongoClient;
 
 module.exports = {
 sendResponse: function(response, result, message){
@@ -11,13 +12,26 @@ sendResponse: function(response, result, message){
     }
 },
 
-addTrace: function (start, status) {
+addTrace: function (start, status, destinationHost) {
+
     var end = new Date();
-    // TODO: Store in mongo EndTime
-    console.log("End Time: " + end);
     var lapse = end - start;
-    // TODO: Store in mongo Status
+    var item = {
+                    start: start,
+                    end: end,
+                    lapse: lapse,
+                    status: status,
+                    host: destinationHost, 
+                };
+                
     console.log("Status Response: "+ status +" Time Lapse = " +lapse + "ms");
+    mongoClient.connect("mongodb://gb-mongo:WXFU43PvnFcyHV3GW6ZmJvYhr613ZBbyuhYA3azpvpUiqDJEmHxMIXWwd4XQMPcWRzMKMy8S5zhZHz0GihVXuw==@gb-mongo.documents.azure.com:10250/?ssl=true", 
+        function (err, db) {
+            db.collection('gb-respose-times').insertOne(item, function(error, result){
+                console.log("result" + result);
+                db.close();
+            });
+        });
 },
 
 retrieveUrl: function(request){
