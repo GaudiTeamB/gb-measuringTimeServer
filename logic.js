@@ -1,4 +1,5 @@
 var urlValidations = require('./urlValidations.js');
+var url = require('url');
 var mongoClient = require("mongodb").MongoClient;
 
 module.exports = {
@@ -12,11 +13,13 @@ sendResponse: function(response, result, message){
     }
 },
 
-addTrace: function (start, status, destinationHost) {
+addTrace: function (start, status, destinationHost, id, number) {
 
     var end = new Date();
     var lapse = end - start;
     var item = {
+                    id: id,
+                    number: number,
                     start: start,
                     end: end,
                     lapse: lapse,
@@ -35,13 +38,21 @@ addTrace: function (start, status, destinationHost) {
 },
 
 retrieveUrl: function(request){
-    var url = require('url');
     var destinationHost = url.parse(request.url, true).query.url;
     return destinationHost;
 },
 
+retrieveRequestId: function(request){
+    var requestId = url.parse(request.url, true).query.id;
+    return requestId;
+},
+
+retrieveRequestNumber: function(request){
+    var requestId = url.parse(request.url, true).query.number;
+    return requestId;
+},
+
 isValidUrl: function (destinationUrl) {
-    var url = require('url');
     var urlParsed = url.parse(destinationUrl, true);
 
     // TODO: isValidHost is not the proper check for this field. Custom check needed.

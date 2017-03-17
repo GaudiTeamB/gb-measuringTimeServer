@@ -6,15 +6,23 @@ var app = express();
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', function (request, response) {
 
-
    var destinationHost = logic.retrieveUrl(request);
- 
+   var id = logic.retrieveRequestId(request);
+   var number = logic.retrieveRequestNumber(request);
+
     if(destinationHost === undefined || !logic.isValidUrl(destinationHost)) {
-        logic.sendResponse(response, 404, "Invalid URL: " + destinationHost)
+        logic.sendResponse(response, 404, "Invalid URL: " + destinationHost);
     }
     else {
         var start = new Date();
-        logic.httpCall(destinationHost).then(function(status) { logic.sendResponse(response, status, "Ok"); logic.addTrace(start, status, destinationHost); }).catch(function(message) { logic.sendResponse(response, 500, message); logic.addTrace(start, message); });   
+        logic.httpCall(destinationHost)
+            .then(function(status) { 
+                logic.sendResponse(response, status, "Ok"); 
+                logic.addTrace(start, status, destinationHost, id, number); 
+            }).catch(function(message) { 
+                logic.sendResponse(response, 500, message); 
+                logic.addTrace(start, message); 
+            });   
     }
 });
 
