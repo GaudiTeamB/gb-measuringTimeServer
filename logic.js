@@ -13,12 +13,12 @@ sendResponse: function(response, result, message){
     }
 },
 
-addTrace: function (start, status, destinationHost, id, number) {
+storeTimes: function (start, status, destinationHost, id, number) {
 
     var end = new Date();
     var lapse = end - start;
     var item = {
-                    id: id,
+                    transactionId: id,
                     number: number,
                     start: start,
                     end: end,
@@ -27,11 +27,10 @@ addTrace: function (start, status, destinationHost, id, number) {
                     host: destinationHost, 
                 };
                 
-    console.log("Status Response: "+ status +" Time Lapse = " +lapse + "ms");
     mongoClient.connect("mongodb://gb-mongo:WXFU43PvnFcyHV3GW6ZmJvYhr613ZBbyuhYA3azpvpUiqDJEmHxMIXWwd4XQMPcWRzMKMy8S5zhZHz0GihVXuw==@gb-mongo.documents.azure.com:10250/?ssl=true", 
         function (err, db) {
             db.collection('gb-respose-times').insertOne(item, function(error, result){
-                console.log("result" + result);
+                console.log("result:" + result);
                 db.close();
             });
         });
@@ -55,7 +54,6 @@ retrieveRequestNumber: function(request){
 isValidUrl: function (destinationUrl) {
     var urlParsed = url.parse(destinationUrl, true);
 
-    // TODO: isValidHost is not the proper check for this field. Custom check needed.
     var isValid = (urlParsed.href && urlValidations.isValidHost(urlParsed.href)) || 
                   (urlValidations.isValidHost(urlParsed.host) &&
                   urlValidations.isValidProtocol(urlParsed.protocol));
@@ -66,15 +64,20 @@ isValidUrl: function (destinationUrl) {
 httpCall: function(destinationHost) {
     return new Promise(function (resolve, reject) {
         var http = require('http');
+        console.log("destinationHost: " + destinationHost );
         var options = {
+                    method: 'GET',
+                    protocol: 'http:',
                     host: destinationHost,
                     port: 80,
-                    path: '/'
+                    path: '/',
                 };
 
         http.get(options, function(res) {
+            console.log('send request');
             res.on("data", function() {
-                resolve(res.statusCode);
+                console.log('response retrieved');
+                resolve(res);
             });
         }).on('error', function(e) {
             reject(e.message);

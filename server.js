@@ -10,6 +10,8 @@ app.get('/', function (request, response) {
    var id = logic.retrieveRequestId(request);
    var number = logic.retrieveRequestNumber(request);
 
+   console.log("destinationHost: " + destinationHost + " id="+ id  + " number=" + number);
+
     if(destinationHost === undefined || !logic.isValidUrl(destinationHost)) {
         logic.sendResponse(response, 404, "Invalid URL: " + destinationHost);
     }
@@ -17,11 +19,13 @@ app.get('/', function (request, response) {
         var start = new Date();
         logic.httpCall(destinationHost)
             .then(function(status) { 
+                console.log("destinationHost: " + destinationHost + " id="+ id  + " number=" + number);
                 logic.sendResponse(response, status, "Ok"); 
-                logic.addTrace(start, status, destinationHost, id, number); 
+                logic.storeTimes(start, status, destinationHost, id, number); 
             }).catch(function(message) { 
+                console.log("destinationHost: " + destinationHost + " id="+ id  + " number=" + number);
                 logic.sendResponse(response, 500, message); 
-                logic.addTrace(start, message); 
+                logic.storeTimes(start, message, destinationHost, id, number); 
             });   
     }
 });
